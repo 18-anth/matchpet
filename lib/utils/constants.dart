@@ -1,1 +1,1 @@
-const String firebaseUrl = 'https://mi-firebase-app.com';
+const String firebaseUrl = 'https://matchpet-e9757-default-rtdb.firebaseio.com/';

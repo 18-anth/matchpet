@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191070138651",
+    "project_id": "matchpet-e9757",
+    "storage_bucket": "matchpet-e9757.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191070138651:android:e370889796ccfe092763be",
+        "android_client_info": {
+          "package_name": "matchpet.com.ec.matchpet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGjzTheYRe30Ex5TnAhXni5LOjviBqMTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
