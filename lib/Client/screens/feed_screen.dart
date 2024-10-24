@@ -3,10 +3,11 @@ import '../widgets/news_card.dart';
 import '../services/news_service.dart';
 
 class FeedScreen extends StatelessWidget {
+  const FeedScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Feed de Noticias')),
       body: FutureBuilder(
         future: NewsService().fetchPosts(),
         builder: (context, snapshot) {

@@ -4,7 +4,7 @@ import '../models/post.dart';
 class PostDetailScreen extends StatelessWidget {
   final Post post;
 
-  PostDetailScreen({required this.post});
+  const PostDetailScreen({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class PostDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(post.imageUrl),
-            SizedBox(height: 16),
-            Text(post.description, style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 16),
+            Text(post.description, style: const TextStyle(fontSize: 18)),
           ],
         ),
       ),

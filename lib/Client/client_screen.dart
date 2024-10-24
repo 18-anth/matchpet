@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:matchpet/Client/screens/adoptions_screen.dart';
+import 'package:matchpet/Client/screens/donations_screen.dart';
+import 'package:matchpet/Client/screens/feed_screen.dart';
+import 'package:matchpet/Client/screens/profile_screen.dart';
 
 class ClientScreen extends StatefulWidget {
   @override
@@ -11,6 +15,8 @@ class _ClientScreenState extends State<ClientScreen> {
   final User? user = FirebaseAuth.instance.currentUser; // Usuario actual
   String displayName = 'Nombre del Usuario'; // Valor por defecto
   String email = 'correo@ejemplo.com'; // Valor por defecto
+  String _selectedScreen = 'feed'; // Valor por defecto para la pantalla
+  String _selectedScreenText = 'Puppy Tail'; // Texto por defecto del AppBar
 
   @override
   void initState() {
@@ -51,11 +57,32 @@ class _ClientScreenState extends State<ClientScreen> {
     }
   }
 
+  // Método para cambiar el contenido basado en la opción seleccionada
+  Widget _getScreenContent(String screen) {
+    switch (screen) {
+      case 'feed':
+        return FeedScreen();
+      case 'donations':
+        return DonationsScreen();
+      case 'adoptions':
+        return AdoptionsScreen();
+      case 'profile':
+        return ProfileScreen();
+      default:
+        return const Center(child: Text('Pantalla no encontrada'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Panel de Cliente'),
+        title: Text(
+          _selectedScreenText,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -80,78 +107,91 @@ class _ClientScreenState extends State<ClientScreen> {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment
-                          .center, // Centra verticalmente los elementos
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Contenedor que envuelve la imagen del logo
                         Container(
                           decoration: BoxDecoration(
-                            shape:
-                                BoxShape.circle, // Hacer el contorno circular
+                            shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black
-                                    .withOpacity(0.2), // Sombra alrededor
+                                color: Colors.black.withOpacity(0.2),
                                 spreadRadius: 3,
                                 blurRadius: 7,
-                                offset: Offset(0, 3), // Posición de la sombra
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
                           child: const CircleAvatar(
-                            radius: 40, // Tamaño del avatar
-                            backgroundImage: AssetImage(
-                                'assets/images/matchpet_logo.jpeg'), // Ruta de la imagen del logo
+                            radius: 40,
+                            backgroundImage:
+                                AssetImage('assets/images/matchpet_logo.jpeg'),
                           ),
                         ),
-                        const SizedBox(
-                            height: 10), // Espacio entre la imagen y el texto
+                        const SizedBox(height: 10),
                         Text(
-                          displayName, // Mostrar el nombre desde la base de datos
+                          displayName,
                           style: const TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16, // Tamaño de fuente para el nombre
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(
-                            height: 4), // Espacio entre el nombre y el correo
+                        const SizedBox(height: 4),
                         Text(
-                          email, // Mostrar el correo desde la base de datos
+                          email,
                           style: const TextStyle(
                             color: Color.fromARGB(255, 100, 100, 100),
-                            fontSize: 12, // Tamaño de fuente para el correo
+                            fontSize: 12,
                           ),
                         ),
                       ],
                     ),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.logout),
+                    leading: const Icon(Icons.home),
                     title: const Text('Feed'),
                     onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/feed');
+                      setState(() {
+                        _selectedScreen = 'feed';
+                        _selectedScreenText =
+                            'Feed de Noticias'; // Actualiza el título
+                      });
+                      Navigator.of(context).pop(); // Cerrar Drawer
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.logout),
+                    leading: const Icon(Icons.money),
                     title: const Text('Donations'),
                     onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/donations');
+                      setState(() {
+                        _selectedScreen = 'donations';
+                        _selectedScreenText =
+                            'Donaciones'; // Actualiza el título
+                      });
+                      Navigator.of(context).pop();
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.logout),
+                    leading: const Icon(Icons.pets),
                     title: const Text('Adoptions'),
                     onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/adoptions');
+                      setState(() {
+                        _selectedScreen = 'adoptions';
+                        _selectedScreenText =
+                            'Adopciones'; // Actualiza el título
+                      });
+                      Navigator.of(context).pop();
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.logout),
+                    leading: const Icon(Icons.person),
                     title: const Text('Profile'),
                     onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/profile');
+                      setState(() {
+                        _selectedScreen = 'profile';
+                        _selectedScreenText = 'Perfil'; // Actualiza el título
+                      });
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -174,7 +214,7 @@ class _ClientScreenState extends State<ClientScreen> {
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40.0),
                     bottomRight: Radius.circular(40.0),
-                  ), // Opcional: bordes redondeados
+                  ),
                   boxShadow: [
                     BoxShadow(
                       offset: Offset(10, 10),
@@ -182,18 +222,17 @@ class _ClientScreenState extends State<ClientScreen> {
                       blurRadius: 10,
                     ),
                     BoxShadow(
-                        offset: Offset(-10, -10),
-                        color: Color.fromARGB(150, 255, 255, 255),
-                        blurRadius: 10),
+                      offset: Offset(-10, -10),
+                      color: Color.fromARGB(150, 255, 255, 255),
+                      blurRadius: 10,
+                    ),
                   ],
                 ),
                 child: ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Cerrar sesión'),
                   onTap: () async {
-                    // Llama a la función de cerrar sesión
                     await FirebaseAuth.instance.signOut();
-                    // Redirige a la pantalla de login
                     Navigator.of(context).pushReplacementNamed('/login');
                   },
                 ),
@@ -202,11 +241,7 @@ class _ClientScreenState extends State<ClientScreen> {
           ],
         ),
       ),
-      body: const Column(
-        children: [
-          Expanded(child: _getScreenContent(_selectedScreen)),
-        ],
-      ),
+      body: _getScreenContent(_selectedScreen),
     );
   }
 }

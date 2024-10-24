@@ -3,10 +3,11 @@ import '../widgets/adoption_card.dart';
 import '../services/adoption_service.dart';
 
 class AdoptionsScreen extends StatelessWidget {
+  const AdoptionsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Adopciones')),
       body: FutureBuilder(
         future: AdoptionService().fetchAdoptions(),
         builder: (context, snapshot) {

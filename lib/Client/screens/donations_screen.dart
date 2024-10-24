@@ -3,10 +3,11 @@ import '../widgets/donation_card.dart';
 import '../services/donations_service.dart';
 
 class DonationsScreen extends StatelessWidget {
+  const DonationsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Donaciones')),
       body: FutureBuilder(
         future: DonationsService().fetchDonations(),
         builder: (context, snapshot) {
