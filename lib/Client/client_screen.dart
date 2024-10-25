@@ -7,6 +7,8 @@ import 'package:matchpet/Client/screens/feed_screen.dart';
 import 'package:matchpet/Client/screens/profile_screen.dart';
 
 class ClientScreen extends StatefulWidget {
+  const ClientScreen({super.key});
+
   @override
   _ClientScreenState createState() => _ClientScreenState();
 }
